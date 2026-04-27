@@ -1,0 +1,45 @@
+2026-01-03 12:22:07 - Input: {"shift_id":4,"type":"sale","items":[{"warehouse_item_id":"1","name":"Тест","price":0.01,"quantity":1,"total":0.01}],"total_amount":0.01,"cash_amount":0.01,"card_amount":0,"cashier_name":"","acquiring_result":null}
+2026-01-03 12:22:07 - Table structure: CREATE TABLE `checks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shift_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `division_id` int(11) DEFAULT NULL,
+  `type` enum('sale','return','correction') COLLATE utf8mb4_bin DEFAULT NULL,
+  `kkm_check_number` int(11) DEFAULT NULL,
+  `total_amount` decimal(10,2) DEFAULT NULL,
+  `cash_amount` decimal(10,2) DEFAULT NULL,
+  `card_amount` decimal(10,2) DEFAULT NULL,
+  `items` json DEFAULT NULL,
+  `fiscal_data` json DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `acquiring_data` text COLLATE utf8mb4_bin,
+  `kkm_number` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
+  `status` enum('pending','printed','error') COLLATE utf8mb4_bin DEFAULT 'pending',
+  `check_number` int(11) DEFAULT NULL,
+  `session_number` int(11) DEFAULT NULL,
+  `fiscal_sign` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `qr_code` text COLLATE utf8mb4_bin,
+  `fn_number` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
+  `receipt_url` text COLLATE utf8mb4_bin,
+  `ofd_url` text COLLATE utf8mb4_bin,
+  KEY `user_id` (`user_id`),
+  KEY `division_id` (`division_id`),
+  KEY `shift_id` (`shift_id`),
+  KEY `idx_check_number` (`check_number`),
+  KEY `idx_session_number` (`session_number`),
+  KEY `idx_fiscal_sign` (`fiscal_sign`(100)),
+  KEY `idx_status` (`status`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin
+2026-01-03 12:22:07 - Actual columns: id, shift_id, user_id, division_id, type, kkm_check_number, total_amount, cash_amount, card_amount, items, fiscal_data, created_at, acquiring_data, kkm_number, status, check_number, session_number, fiscal_sign, qr_code, fn_number, receipt_url, ofd_url
+2026-01-03 12:22:07 - Has total_amount: YES
+2026-01-03 12:22:07 - Has cash_amount: YES
+2026-01-03 12:22:07 - Has card_amount: YES
+2026-01-03 12:22:07 - SQL: INSERT INTO `checks` (`shift_id`, `user_id`, `division_id`, `type`, `items`) VALUES (?, ?, ?, ?, ?)
+2026-01-03 12:22:07 - Params: [4,"51","3","sale","{\"products\":[{\"warehouse_item_id\":\"1\",\"name\":\"\u0422\u0435\u0441\u0442\",\"price\":0.01,\"quantity\":1,\"total\":0.01}],\"total_amount\":0.01,\"cash_amount\":0.01,\"card_amount\":0,\"timestamp\":\"2026-01-03 12:22:07\"}"]
+2026-01-03 12:22:07 - Insert successful, ID: 8
+2026-01-03 12:22:07 - Update SQL: UPDATE `checks` SET `total_amount` = ?, `cash_amount` = ?, `card_amount` = ?, `status` = ? WHERE `id` = ?
+2026-01-03 12:22:07 - Update params: [0.01,0.01,0,"printed","8"]
+2026-01-03 12:22:07 - Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'total_amount' in 'field list'
+#0 /home/g/ggmgada3gm/public_html/api/save_check.php(227): PDOStatement->execute(Array)
+#1 {main}
